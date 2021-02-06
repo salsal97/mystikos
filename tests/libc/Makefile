@@ -15,6 +15,11 @@ APPDIR=$(CURDIR)/appdir
 
 ROOTFS=$(CURDIR)/rootfs
 
+ifdef TEST
+one:
+	$(RUNTEST) $(MYST_EXEC) $(OPTS) $(ROOTFS) $(TEST)
+endif
+
 ##==============================================================================
 ##
 ## all rule:
