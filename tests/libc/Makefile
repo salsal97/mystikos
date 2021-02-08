@@ -16,9 +16,20 @@ APPDIR=$(CURDIR)/appdir
 ROOTFS=$(CURDIR)/rootfs
 
 ifdef TEST
+export TIMEOUT=5
+# OPTS += --strace
 one:
 	$(RUNTEST) $(MYST_EXEC) $(OPTS) $(ROOTFS) $(TEST)
 endif
+
+ifdef FAILED
+  TEST_FILE = failed.txt
+  export TIMEOUT=10
+else
+  TEST_FILE = alltests.txt
+endif
+
+TESTS = $(shell cat $(TEST_FILE))
 
 ##==============================================================================
 ##
@@ -37,15 +48,6 @@ $(APPDIR):
 $(APPDIR)/target:
 	sudo docker run --rm -v $(APPDIR):/appdir $(IMG) bash -c "make -j -C appdir"
 	touch $(APPDIR)/target
-
-ifdef FAILED
-  TEST_FILE = failed.txt
-  STATUS=FAILED
-  export TIMEOUT=10
-else
-  TEST_FILE = alltests.txt
-  STATUS=PASSED
-endif
 
 $(APPDIR)/bin/run: run.c
 	mkdir -p $(APPDIR)/bin
@@ -70,6 +72,9 @@ OPTS += --roothash=$(ROOTHASH)
 
 tests: all
 	$(RUNTEST) $(MYST_EXEC) $(OPTS) $(ROOTFS) /bin/run $(STATUS) $(TEST_FILE)
+
+failedtests: all
+	@ $(foreach i, $(TESTS), TESTNAME=$(TESTNAME)$(i)$(TESTSUFFIX) $(RUNTEST) $(MYST_EXEC) $(OPTS) $(ROOTFS) $(TEST) $(i) $(NL) )
 
 clean:
 	rm -rf $(APPDIR) $(ROOTFS) $(ROOTHASH)
