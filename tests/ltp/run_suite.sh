@@ -21,5 +21,8 @@ cat op_$FILE.output | grep "unhandled syscall:" > op_unhandled_syscalls.output.c
 
 }
 
-run_tests ltp1.txt
-run_tests ltp2.txt
+# run_tests ltp1.txt
+# run_tests ltp2.txt
+run_tests ltp_enabled.txt
+
+# To remove partial from complete, grep -Fvx -f partial.list complete.list >remaining.list
