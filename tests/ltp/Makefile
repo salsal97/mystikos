@@ -7,6 +7,11 @@ APPBUILDER=$(TOP)/scripts/appbuilder
 TEST_FILE=ltp_enabled.txt
 TESTS=$(shell cat $(TEST_FILE))
 
+ifdef TEST
+one:
+	$(RUNTEST) $(MYST_EXEC) $(OPTS) rootfs $(TEST)
+endif
+
 all:
 	git submodule update --init --progress $(TOP)/third_party/ltp/ltp
 	$(MAKE) myst
