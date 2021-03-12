@@ -37,7 +37,7 @@ HOSTFS=$(CURDIR)/hostfs
 all: ext2fs
 
 ext2fs: appdir
-	sudo $(MYST) mkext2 appdir ext2fs
+	sudo $(MYST) mkext2 --force appdir ext2fs
 	sudo chown $(USER).$(USER) ext2fs
 	truncate --size=-4096 ext2fs
 
