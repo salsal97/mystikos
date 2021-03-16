@@ -458,7 +458,6 @@
 /ltp/testcases/kernel/syscalls/inotify/inotify06
 /ltp/testcases/kernel/syscalls/inotify/inotify07
 /ltp/testcases/kernel/syscalls/inotify/inotify08
-/ltp/testcases/kernel/syscalls/inotify/inotify09
 /ltp/testcases/kernel/syscalls/inotify/inotify10
 /ltp/testcases/kernel/syscalls/io_cancel/io_cancel01
 /ltp/testcases/kernel/syscalls/ioctl/ioctl01
@@ -670,6 +669,8 @@
 /ltp/testcases/kernel/syscalls/mlock2/mlock202
 /ltp/testcases/kernel/syscalls/mlock2/mlock203
 /ltp/testcases/kernel/syscalls/mlockall/mlockall01
+/ltp/testcases/kernel/syscalls/mlockall/mlockall02
+/ltp/testcases/kernel/syscalls/mlockall/mlockall03
 /ltp/testcases/kernel/syscalls/mlock/mlock01
 /ltp/testcases/kernel/syscalls/mlock/mlock02
 /ltp/testcases/kernel/syscalls/mlock/mlock03
@@ -949,7 +950,6 @@
 /ltp/testcases/kernel/syscalls/sbrk/sbrk03
 /ltp/testcases/kernel/syscalls/sched_getaffinity/sched_getaffinity01
 /ltp/testcases/kernel/syscalls/sched_getattr/sched_getattr01
-/ltp/testcases/kernel/syscalls/sched_getattr/sched_getattr02
 /ltp/testcases/kernel/syscalls/sched_getparam/sched_getparam01
 /ltp/testcases/kernel/syscalls/sched_getparam/sched_getparam03
 /ltp/testcases/kernel/syscalls/sched_get_priority_max/sched_get_priority_max01
@@ -962,7 +962,6 @@
 /ltp/testcases/kernel/syscalls/sched_rr_get_interval/sched_rr_get_interval02
 /ltp/testcases/kernel/syscalls/sched_rr_get_interval/sched_rr_get_interval03
 /ltp/testcases/kernel/syscalls/sched_setaffinity/sched_setaffinity01
-/ltp/testcases/kernel/syscalls/sched_setattr/sched_setattr01
 /ltp/testcases/kernel/syscalls/sched_setparam/sched_setparam01
 /ltp/testcases/kernel/syscalls/sched_setparam/sched_setparam02
 /ltp/testcases/kernel/syscalls/sched_setparam/sched_setparam03
@@ -990,8 +989,6 @@
 /ltp/testcases/kernel/syscalls/sendfile/sendfile07_64
 /ltp/testcases/kernel/syscalls/sendfile/sendfile08
 /ltp/testcases/kernel/syscalls/sendfile/sendfile08_64
-/ltp/testcases/kernel/syscalls/sendfile/sendfile09
-/ltp/testcases/kernel/syscalls/sendfile/sendfile09_64
 /ltp/testcases/kernel/syscalls/sendmmsg/sendmmsg01
 /ltp/testcases/kernel/syscalls/sendmmsg/sendmmsg02
 /ltp/testcases/kernel/syscalls/sendmsg/sendmsg01
@@ -1221,8 +1218,6 @@
 /ltp/testcases/kernel/syscalls/syslog/syslogtst
 /ltp/testcases/kernel/syscalls/tee/tee01
 /ltp/testcases/kernel/syscalls/tee/tee02
-/ltp/testcases/kernel/syscalls/tgkill/tgkill01
-/ltp/testcases/kernel/syscalls/tgkill/tgkill02
 /ltp/testcases/kernel/syscalls/tgkill/tgkill03
 /ltp/testcases/kernel/syscalls/timer_delete/timer_delete01
 /ltp/testcases/kernel/syscalls/timer_delete/timer_delete02

@@ -10,23 +10,26 @@ FS=ext2fs
 endif
 
 ifeq ($(FS),hostfs)
+# select lines from tests without '#' in the first column
+TESTS=$(shell grep -v "^\#" hostfs_tests_passed.txt)
 FOUND=1
 endif
 
 ifeq ($(FS),ext2fs)
+# select lines from tests without '#' in the first column
+TESTS=$(shell grep -v "^\#" ext2fs_tests_passed.txt)
 FOUND=1
 endif
 
 ifeq ($(FS),ramfs)
+# select lines from tests without '#' in the first column
+TESTS=$(shell grep -v "^\#"ramfs_tests_passed.txt)
 FOUND=1
 endif
 
 ifeq ($(FOUND),)
 $(error "bad value for FS: must be hostfs or ext2fs")
 endif
-
-# select lines from tests without '#' in the first column
-TESTS=$(shell grep -v "^\#" tests)
 
 # overlayfs directories
 LOWERDIR=$(CURDIR)/appdir
