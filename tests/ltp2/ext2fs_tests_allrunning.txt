@@ -1,7 +1,6 @@
 /ltp/testcases/kernel/syscalls/abort/abort01
 /ltp/testcases/kernel/syscalls/accept4/accept4_01
 /ltp/testcases/kernel/syscalls/accept/accept01
-/ltp/testcases/kernel/syscalls/accept/accept02
 /ltp/testcases/kernel/syscalls/access/access01
 /ltp/testcases/kernel/syscalls/access/access02
 /ltp/testcases/kernel/syscalls/access/access03
@@ -24,7 +23,6 @@
 /ltp/testcases/kernel/syscalls/alarm/alarm07
 /ltp/testcases/kernel/syscalls/bind/bind01
 /ltp/testcases/kernel/syscalls/bind/bind02
-/ltp/testcases/kernel/syscalls/bind/bind03
 /ltp/testcases/kernel/syscalls/bind/bind04
 /ltp/testcases/kernel/syscalls/bind/bind05
 /ltp/testcases/kernel/syscalls/bind/bind06
@@ -135,9 +133,7 @@
 /ltp/testcases/kernel/syscalls/epoll_ctl/epoll_ctl02
 /ltp/testcases/kernel/syscalls/epoll/epoll-ltp
 /ltp/testcases/kernel/syscalls/epoll_pwait/epoll_pwait01
-/ltp/testcases/kernel/syscalls/epoll_wait/epoll_wait01
 /ltp/testcases/kernel/syscalls/epoll_wait/epoll_wait02
-/ltp/testcases/kernel/syscalls/epoll_wait/epoll_wait03
 /ltp/testcases/kernel/syscalls/eventfd2/eventfd2_01
 /ltp/testcases/kernel/syscalls/eventfd2/eventfd2_02
 /ltp/testcases/kernel/syscalls/eventfd2/eventfd2_03
@@ -219,7 +215,6 @@
 /ltp/testcases/kernel/syscalls/fchown/fchown03_16
 /ltp/testcases/kernel/syscalls/fchown/fchown04
 /ltp/testcases/kernel/syscalls/fchown/fchown04_16
-/ltp/testcases/kernel/syscalls/fchown/fchown05
 /ltp/testcases/kernel/syscalls/fchown/fchown05_16
 /ltp/testcases/kernel/syscalls/fcntl/fcntl01
 /ltp/testcases/kernel/syscalls/fcntl/fcntl01_64
@@ -287,12 +282,8 @@
 /ltp/testcases/kernel/syscalls/fcntl/fcntl32_64
 /ltp/testcases/kernel/syscalls/fcntl/fcntl33
 /ltp/testcases/kernel/syscalls/fcntl/fcntl33_64
-/ltp/testcases/kernel/syscalls/fcntl/fcntl34
-/ltp/testcases/kernel/syscalls/fcntl/fcntl34_64
 /ltp/testcases/kernel/syscalls/fcntl/fcntl35
 /ltp/testcases/kernel/syscalls/fcntl/fcntl35_64
-/ltp/testcases/kernel/syscalls/fcntl/fcntl36
-/ltp/testcases/kernel/syscalls/fcntl/fcntl36_64
 /ltp/testcases/kernel/syscalls/fcntl/fcntl37
 /ltp/testcases/kernel/syscalls/fcntl/fcntl37_64
 /ltp/testcases/kernel/syscalls/fcntl/fcntl38
@@ -363,7 +354,6 @@
 /ltp/testcases/kernel/syscalls/futex/futex_cmp_requeue02
 /ltp/testcases/kernel/syscalls/futex/futex_wait01
 /ltp/testcases/kernel/syscalls/futex/futex_wait02
-/ltp/testcases/kernel/syscalls/futex/futex_wait03
 /ltp/testcases/kernel/syscalls/futex/futex_wait04
 /ltp/testcases/kernel/syscalls/futex/futex_wait05
 /ltp/testcases/kernel/syscalls/futex/futex_wait_bitset01
@@ -419,7 +409,6 @@
 /ltp/testcases/kernel/syscalls/getrandom/getrandom01
 /ltp/testcases/kernel/syscalls/getrandom/getrandom02
 /ltp/testcases/kernel/syscalls/getrandom/getrandom03
-/ltp/testcases/kernel/syscalls/getrandom/getrandom04
 /ltp/testcases/kernel/syscalls/getresgid/getresgid01
 /ltp/testcases/kernel/syscalls/getresgid/getresgid01_16
 /ltp/testcases/kernel/syscalls/getresgid/getresgid02
@@ -445,10 +434,8 @@
 /ltp/testcases/kernel/syscalls/getsid/getsid02
 /ltp/testcases/kernel/syscalls/getsockname/getsockname01
 /ltp/testcases/kernel/syscalls/getsockopt/getsockopt01
-/ltp/testcases/kernel/syscalls/getsockopt/getsockopt02
 /ltp/testcases/kernel/syscalls/gettid/gettid01
 /ltp/testcases/kernel/syscalls/gettimeofday/gettimeofday01
-/ltp/testcases/kernel/syscalls/gettimeofday/gettimeofday02
 /ltp/testcases/kernel/syscalls/getuid/getuid01
 /ltp/testcases/kernel/syscalls/getuid/getuid01_16
 /ltp/testcases/kernel/syscalls/getuid/getuid03
@@ -470,7 +457,6 @@
 /ltp/testcases/kernel/syscalls/inotify/inotify06
 /ltp/testcases/kernel/syscalls/inotify/inotify07
 /ltp/testcases/kernel/syscalls/inotify/inotify08
-/ltp/testcases/kernel/syscalls/inotify/inotify09
 /ltp/testcases/kernel/syscalls/inotify/inotify10
 /ltp/testcases/kernel/syscalls/io_cancel/io_cancel01
 /ltp/testcases/kernel/syscalls/ioctl/ioctl01
@@ -501,11 +487,9 @@
 /ltp/testcases/kernel/syscalls/io_destroy/io_destroy01
 /ltp/testcases/kernel/syscalls/io_getevents/io_getevents01
 /ltp/testcases/kernel/syscalls/ioperm/ioperm01
-/ltp/testcases/kernel/syscalls/ioperm/ioperm02
 /ltp/testcases/kernel/syscalls/io_pgetevents/io_pgetevents01
 /ltp/testcases/kernel/syscalls/io_pgetevents/io_pgetevents02
 /ltp/testcases/kernel/syscalls/iopl/iopl01
-/ltp/testcases/kernel/syscalls/iopl/iopl02
 /ltp/testcases/kernel/syscalls/ioprio/ioprio_get01
 /ltp/testcases/kernel/syscalls/ioprio/ioprio_set01
 /ltp/testcases/kernel/syscalls/ioprio/ioprio_set02
@@ -549,7 +533,6 @@
 /ltp/testcases/kernel/syscalls/ipc/semctl/semctl06
 /ltp/testcases/kernel/syscalls/ipc/semctl/semctl07
 /ltp/testcases/kernel/syscalls/ipc/semctl/semctl08
-/ltp/testcases/kernel/syscalls/ipc/semctl/semctl09
 /ltp/testcases/kernel/syscalls/ipc/semget/semget01
 /ltp/testcases/kernel/syscalls/ipc/semget/semget02
 /ltp/testcases/kernel/syscalls/ipc/semget/semget03
@@ -621,7 +604,6 @@
 /ltp/testcases/kernel/syscalls/llistxattr/llistxattr01
 /ltp/testcases/kernel/syscalls/llistxattr/llistxattr02
 /ltp/testcases/kernel/syscalls/llistxattr/llistxattr03
-/ltp/testcases/kernel/syscalls/llseek/llseek01
 /ltp/testcases/kernel/syscalls/llseek/llseek02
 /ltp/testcases/kernel/syscalls/llseek/llseek03
 /ltp/testcases/kernel/syscalls/lremovexattr/lremovexattr01
@@ -802,7 +784,6 @@
 /ltp/testcases/kernel/syscalls/pause/pause02
 /ltp/testcases/kernel/syscalls/pause/pause03
 /ltp/testcases/kernel/syscalls/perf_event_open/perf_event_open01
-/ltp/testcases/kernel/syscalls/perf_event_open/perf_event_open02
 /ltp/testcases/kernel/syscalls/personality/personality01
 /ltp/testcases/kernel/syscalls/personality/personality02
 /ltp/testcases/kernel/syscalls/pidfd_open/pidfd_open01
@@ -830,7 +811,6 @@
 /ltp/testcases/kernel/syscalls/pipe/pipe13
 /ltp/testcases/kernel/syscalls/pivot_root/pivot_root01
 /ltp/testcases/kernel/syscalls/pkeys/pkey01
-/ltp/testcases/kernel/syscalls/poll/poll01
 /ltp/testcases/kernel/syscalls/poll/poll02
 /ltp/testcases/kernel/syscalls/ppoll/ppoll01
 /ltp/testcases/kernel/syscalls/prctl/prctl01
@@ -956,7 +936,6 @@
 /ltp/testcases/kernel/syscalls/request_key/request_key05
 /ltp/testcases/kernel/syscalls/rmdir/rmdir01
 /ltp/testcases/kernel/syscalls/rmdir/rmdir02
-/ltp/testcases/kernel/syscalls/rmdir/rmdir03
 /ltp/testcases/kernel/syscalls/rt_sigaction/rt_sigaction01
 /ltp/testcases/kernel/syscalls/rt_sigaction/rt_sigaction02
 /ltp/testcases/kernel/syscalls/rt_sigaction/rt_sigaction03
@@ -970,7 +949,6 @@
 /ltp/testcases/kernel/syscalls/sbrk/sbrk03
 /ltp/testcases/kernel/syscalls/sched_getaffinity/sched_getaffinity01
 /ltp/testcases/kernel/syscalls/sched_getattr/sched_getattr01
-/ltp/testcases/kernel/syscalls/sched_getattr/sched_getattr02
 /ltp/testcases/kernel/syscalls/sched_getparam/sched_getparam01
 /ltp/testcases/kernel/syscalls/sched_getparam/sched_getparam03
 /ltp/testcases/kernel/syscalls/sched_get_priority_max/sched_get_priority_max01
@@ -983,7 +961,6 @@
 /ltp/testcases/kernel/syscalls/sched_rr_get_interval/sched_rr_get_interval02
 /ltp/testcases/kernel/syscalls/sched_rr_get_interval/sched_rr_get_interval03
 /ltp/testcases/kernel/syscalls/sched_setaffinity/sched_setaffinity01
-/ltp/testcases/kernel/syscalls/sched_setattr/sched_setattr01
 /ltp/testcases/kernel/syscalls/sched_setparam/sched_setparam01
 /ltp/testcases/kernel/syscalls/sched_setparam/sched_setparam02
 /ltp/testcases/kernel/syscalls/sched_setparam/sched_setparam03
@@ -1025,7 +1002,6 @@
 /ltp/testcases/kernel/syscalls/sendto/sendto03
 /ltp/testcases/kernel/syscalls/setdomainname/setdomainname01
 /ltp/testcases/kernel/syscalls/setdomainname/setdomainname02
-/ltp/testcases/kernel/syscalls/setdomainname/setdomainname03
 /ltp/testcases/kernel/syscalls/setegid/setegid01
 /ltp/testcases/kernel/syscalls/setegid/setegid02
 /ltp/testcases/kernel/syscalls/setfsgid/setfsgid01
@@ -1058,7 +1034,6 @@
 /ltp/testcases/kernel/syscalls/setgroups/setgroups04_16
 /ltp/testcases/kernel/syscalls/sethostname/sethostname01
 /ltp/testcases/kernel/syscalls/sethostname/sethostname02
-/ltp/testcases/kernel/syscalls/sethostname/sethostname03
 /ltp/testcases/kernel/syscalls/setitimer/setitimer01
 /ltp/testcases/kernel/syscalls/setitimer/setitimer02
 /ltp/testcases/kernel/syscalls/setitimer/setitimer03
@@ -1076,7 +1051,6 @@
 /ltp/testcases/kernel/syscalls/setpgrp/setpgrp02
 /ltp/testcases/kernel/syscalls/setpriority/setpriority01
 /ltp/testcases/kernel/syscalls/setpriority/setpriority02
-/ltp/testcases/kernel/syscalls/setregid/setregid01
 /ltp/testcases/kernel/syscalls/setregid/setregid01_16
 /ltp/testcases/kernel/syscalls/setregid/setregid02
 /ltp/testcases/kernel/syscalls/setregid/setregid02_16
@@ -1118,8 +1092,6 @@
 /ltp/testcases/kernel/syscalls/setreuid/setreuid07_16
 /ltp/testcases/kernel/syscalls/setrlimit/setrlimit01
 /ltp/testcases/kernel/syscalls/setrlimit/setrlimit02
-/ltp/testcases/kernel/syscalls/setrlimit/setrlimit03
-/ltp/testcases/kernel/syscalls/setrlimit/setrlimit04
 /ltp/testcases/kernel/syscalls/setrlimit/setrlimit05
 /ltp/testcases/kernel/syscalls/setrlimit/setrlimit06
 /ltp/testcases/kernel/syscalls/set_robust_list/set_robust_list01
@@ -1135,7 +1107,6 @@
 /ltp/testcases/kernel/syscalls/set_tid_address/set_tid_address01
 /ltp/testcases/kernel/syscalls/settimeofday/settimeofday01
 /ltp/testcases/kernel/syscalls/settimeofday/settimeofday02
-/ltp/testcases/kernel/syscalls/setuid/setuid01
 /ltp/testcases/kernel/syscalls/setuid/setuid01_16
 /ltp/testcases/kernel/syscalls/setuid/setuid03
 /ltp/testcases/kernel/syscalls/setuid/setuid03_16
@@ -1177,8 +1148,6 @@
 /ltp/testcases/kernel/syscalls/splice/splice01
 /ltp/testcases/kernel/syscalls/splice/splice02
 /ltp/testcases/kernel/syscalls/splice/splice03
-/ltp/testcases/kernel/syscalls/splice/splice04
-/ltp/testcases/kernel/syscalls/splice/splice05
 /ltp/testcases/kernel/syscalls/ssetmask/ssetmask01
 /ltp/testcases/kernel/syscalls/statfs/statfs01
 /ltp/testcases/kernel/syscalls/statfs/statfs01_64
@@ -1309,9 +1278,7 @@
 /ltp/testcases/kernel/syscalls/vfork/vfork02
 /ltp/testcases/kernel/syscalls/vhangup/vhangup01
 /ltp/testcases/kernel/syscalls/vhangup/vhangup02
-/ltp/testcases/kernel/syscalls/vmsplice/vmsplice01
 /ltp/testcases/kernel/syscalls/vmsplice/vmsplice02
-/ltp/testcases/kernel/syscalls/vmsplice/vmsplice03
 /ltp/testcases/kernel/syscalls/vmsplice/vmsplice04
 /ltp/testcases/kernel/syscalls/wait4/wait401
 /ltp/testcases/kernel/syscalls/wait4/wait402

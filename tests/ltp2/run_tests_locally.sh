@@ -33,7 +33,6 @@ while read test; do
   else
     echo "$test: $HAS_UNHANDLED_SYSCALL" >> temp_unhandled_syscalls.output
   fi
-  echo "$test"
 done <$FILE
 
 awk '!seen[$9]++' temp_unhandled_syscalls.output | awk '{print $9}' | sort > unhandled_syscalls.txt
@@ -45,7 +44,7 @@ cat temp_passed.output > "$FS"_tests_passed.txt
 
 if [[ -z $FS ]]
 then
-  FS=hostfs
+  FS=ext2fs
 fi
 run_tests "$FS"_tests_allrunning.txt
 
