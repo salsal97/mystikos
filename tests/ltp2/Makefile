@@ -70,7 +70,12 @@ OPTS = --strace
 endif
 
 tests:
-	$(foreach i, $(TESTS), $(MAKE) one TEST=$(i) $(NL) )
+	$(MAKE) alltests FS=hostfs  
+	# $(MAKE) alltests FS=ext2fs
+	# $(MAKE) alltests FS=ramfs
+
+alltests:
+	$(foreach i, $(TESTS), $(MAKE) one FS=$(FS) TEST=$(i) $(NL) )
 
 clean:
 	sudo rm -rf $(APPDIR) ext2fs appdir $(UPPERDIR) $(WORKDIR) $(HOSTFS)
@@ -137,5 +142,3 @@ endif
 
 t:
 	make one FS=ramfs TEST=/ltp/testcases/kernel/syscalls/llseek/llseek03
-
-	#make one FS=ramfs TEST=/ltp/testcases/kernel/syscalls/chmod/chmod02
