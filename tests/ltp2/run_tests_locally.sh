@@ -49,3 +49,11 @@ fi
 run_tests "$FS"_tests_allrunning.txt
 
 # grep -Fvx -f partial.list complete.list > remaining.list
+
+# echo "ALLRUNNING PASSED HANGING UNHANDLED_SYSCALLS OTHER_ERRORS"
+# FS=ext2fs
+# echo "$FS $(cat "$FS"_tests_allrunning.txt | wc -l) $(cat "$FS"_tests_passed.txt | wc -l)  $(cat "$FS"_tests_hanging.txt | wc -l) $(cat "$FS"_tests_unhandled_syscalls.txt | wc -l) $(cat "$FS"_tests_other_errors.txt | wc -l) "
+# FS=hostfs
+# echo "$FS $(cat "$FS"_tests_allrunning.txt | wc -l) $(cat "$FS"_tests_passed.txt | wc -l)  $(cat "$FS"_tests_hanging.txt | wc -l) $(cat "$FS"_tests_unhandled_syscalls.txt | wc -l) $(cat "$FS"_tests_other_errors.txt | wc -l) "
+# FS=ramfs
+# echo "$FS $(cat "$FS"_tests_allrunning.txt | wc -l) $(cat "$FS"_tests_passed.txt | wc -l)  $(cat "$FS"_tests_hanging.txt | wc -l) $(cat "$FS"_tests_unhandled_syscalls.txt | wc -l) $(cat "$FS"_tests_other_errors.txt | wc -l) "
