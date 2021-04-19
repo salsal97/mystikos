@@ -22,7 +22,13 @@ CLEAN = appdir rootfs ext2rootfs ramfs $(HOSTFS)
 
 include $(TOP)/rules.mak
 
+ifdef MYST_ENABLE_GCOV
+tests: test3
+endif 
+
+ifndef MYST_ENABLE_GCOV
 tests: program test1 test2 test3
+endif
 
 test1: rootfs
 	$(RUNTEST) $(MYST_EXEC) $(OPTS) rootfs /bin/fs ramfs

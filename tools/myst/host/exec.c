@@ -295,12 +295,12 @@ int exec_action(int argc, const char* argv[], const char* envp[])
         }
 
         /* Set export_ramfs option based on MYST_ENABLE_GCOV env variable */
-        {
-            const char* val;
+        // {
+        //     const char* val;
 
-            if ((val = getenv("MYST_ENABLE_GCOV")) && strcmp(val, "1") == 0)
-                options.export_ramfs = true;
-        }
+        //     if ((val = getenv("MYST_ENABLE_GCOV")) && strcmp(val, "1") == 0)
+        //         options.export_ramfs = true;
+        // }
 
         /* Get --pubkey=filename and --roothash=filename options */
         get_archive_options(

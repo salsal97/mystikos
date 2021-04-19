@@ -106,10 +106,18 @@ group-file:
 	echo "nogroup:x:65534" >> appdir/etc/group
 	echo "nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin" >> appdir/etc/group
 
+ifdef MYST_ENABLE_GCOV
+tests: 
+	echo "GCOV ENABLED"
+	$(MAKE) tests_hostfs
+endif 
+
+ifndef MYST_ENABLE_GCOV
 tests:
 	$(MAKE) tests_hostfs
 	$(MAKE) tests_ext2fs
 	$(MAKE) tests_ramfs
+endif
 
 tests_hostfs:
 	$(MAKE) alltests FS=hostfs
@@ -163,11 +171,13 @@ endif
 
 ifeq ($(FS),hostfs)
 one:
+	echo "hostfs $(OPTS)"
 	@ sudo rm -rf $(HOSTFS)
 	@ mkdir -p $(shell dirname $(HOSTFS)/$(TEST))
 	cp appdir/$(TEST) $(HOSTFS)/$(TEST)
 	cp -r appdir/etc $(HOSTFS)/
 	sudo -E $(RUNTEST) $(MYST_EXEC) $(OPTS) $(FS) $(TEST) $(NL)
+	# sudo -E $(RUNTEST) $(BINDIR)/myst-gdb $(OPTS) $(FS) $(TEST) $(NL)
 endif
 
 ##==============================================================================
