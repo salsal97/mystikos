@@ -2,6 +2,17 @@
 
 ##==============================================================================
 ##
+## mklibgcov.sh
+##
+##     This script transforms the system libgcov.a into a local version whose
+##     C symbols have been redefined to bear the "myst_gcov_" prefix. This will
+##     allow libgcov.a to be used in contexts where these functions have
+##     different behaviors.
+##
+##==============================================================================
+
+##==============================================================================
+##
 ## copy the system libgcov.a to ./libgcov.a
 ##
 ##==============================================================================

@@ -1,7 +1,6 @@
-
 int foo()
 {
-    123456789;
+    return 10;
 }
 
 int main()
