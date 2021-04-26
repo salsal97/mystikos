@@ -1,6 +1,6 @@
 int foo()
 {
-    return 10;
+    return 0;
 }
 
 int main()

@@ -5,7 +5,7 @@ LDFLAGS += -nodefaultlibs
 LDFLAGS += -nostartfiles
 LDFLAGS += -Wl,--warn-once
 
-all: libgcov.a libgcovcall.a libgcovhandle.a libgcovlibc.a sample sample2
+all: libgcov.a libgcovcall.a libgcovhandle.a libgcovlibc.a sample1 sample2
 
 libgcov.a:
 	./mklibgcov.sh
@@ -22,11 +22,11 @@ libgcovlibc.a: gcovlibc.c
 	$(CC) -Wall -Werror -c gcovlibc.c
 	ar rv libgcovlibc.a gcovlibc.o
 
-sample: sample.c libgcov.a libgcovlibc.a
-	$(CC) -o sample $(CFLAGS) sample.c ./libgcov.a ./libgcovlibc.a
+sample1: sample.c libgcov.a libgcovlibc.a
+	$(CC) -o sample1 $(CFLAGS) sample.c ./libgcov.a ./libgcovlibc.a
 
 sample2: sample.c libgcov.a libgcovlibc.a
 	$(CC) -o sample2 $(CFLAGS) sample.c ./libgcov.a ./libgcovcall.a ./libgcovhandle.a
 
 clean:
-	rm -f *.o *.a *.gcno *.gcda sample sample2
+	rm -f *.o *.a *.gcno *.gcda sample1 sample2
