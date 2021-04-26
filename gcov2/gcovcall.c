@@ -19,6 +19,8 @@ FILE* const myst_gcov_stderr = MYST_GCOV_STDERR;
 
 long myst_gcov(const char* func, long params[6]);
 
+int myst_gcov_fprintf(FILE* stream, const char* format, ...);
+
 _Noreturn void myst_gcov_abort(void)
 {
     myst_gcov(__FUNCTION__, NULL);
@@ -143,8 +145,46 @@ int myst_gcov_mkdir(const char* pathname, mode_t mode)
 
 int myst_gcov_vfprintf(FILE* stream, const char* format, va_list ap)
 {
-    long params[6] = {(long)stream, (long)format, (long)ap};
-    return (int)myst_gcov(__FUNCTION__, params);
+    int ret = -1;
+    char* str = NULL;
+    int len;
+
+    /* determine the number of characters that will be formatted */
+    {
+        va_list ap_copy;
+        char buf[1];
+
+        va_copy(ap_copy, ap);
+        len = vsnprintf(buf, sizeof(buf), format, ap_copy);
+        va_end(ap_copy);
+
+        if (len < 0)
+            goto done;
+    }
+
+    if (len == 0)
+    {
+        ret = 0;
+        goto done;
+    }
+
+    if (!(str = malloc(len + 1)))
+        goto done;
+
+    if ((len = vsnprintf(str, len + 1, format, ap)) < 0)
+        goto done;
+
+    if (myst_gcov_fwrite(str, 1, len, stream) != len)
+        goto done;
+
+    ret = len;
+
+done:
+
+    if (str)
+        free(str);
+
+    return ret;
 }
 
 int myst_gcov_fprintf(FILE* stream, const char* format, ...)
@@ -168,15 +208,15 @@ int myst_gcov___vfprintf_chk(
     const char* format,
     va_list ap)
 {
-    long params[6] = {(long)stream, (long)flag, (long)format, (long)ap};
-    return (int)myst_gcov(__FUNCTION__, params);
+    (void)flag;
+    return myst_gcov_vfprintf(stream, format, ap);
 }
 
 int myst_gcov___fprintf_chk(FILE* stream, int flag, const char* format, ...)
 {
     va_list ap;
     va_start(ap, format);
-    int n = myst_gcov___vfprintf_chk(stream, flag, format, ap);
+    int n = myst_gcov_vfprintf(stream, format, ap);
     va_end(ap);
     return n;
 }

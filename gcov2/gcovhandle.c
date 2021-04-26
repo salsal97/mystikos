@@ -18,7 +18,15 @@
 
 int __popcountdi2(unsigned long a);
 
-int __vfprintf_chk(FILE* stream, int flag, const char* format, va_list ap);
+static FILE* _file(long x)
+{
+    FILE* stream = (FILE*)x;
+
+    if (stream == MYST_GCOV_STDERR)
+        return stderr;
+
+    return stream;
+}
 
 long myst_gcov(const char* func, long p[6])
 {
@@ -37,28 +45,28 @@ long myst_gcov(const char* func, long p[6])
     else if (strcmp(func, "myst_gcov_fread") == 0)
     {
         return (long)fread(
-            (void*)p[0], (size_t)p[1], (size_t)p[2], (FILE*)p[3]);
+            (void*)p[0], (size_t)p[1], (size_t)p[2], _file(p[3]));
     }
     else if (strcmp(func, "myst_gcov_fwrite") == 0)
     {
         return (long)fwrite(
-            (const void*)p[0], (size_t)p[1], (size_t)p[2], (FILE*)p[3]);
+            (const void*)p[0], (size_t)p[1], (size_t)p[2], _file(p[3]));
     }
     else if (strcmp(func, "myst_gcov_fseek") == 0)
     {
-        return (long)fseek((FILE*)p[0], (long)p[1], (int)p[2]);
+        return (long)fseek(_file(p[0]), (long)p[1], (int)p[2]);
     }
     else if (strcmp(func, "myst_gcov_ftell") == 0)
     {
-        return (long)ftell((FILE*)p[0]);
+        return (long)ftell(_file(p[0]));
     }
     else if (strcmp(func, "myst_gcov_fclose") == 0)
     {
-        return (long)fclose((FILE*)p[0]);
+        return (long)fclose(_file(p[0]));
     }
     else if (strcmp(func, "myst_gcov_setbuf") == 0)
     {
-        setbuf((FILE*)p[0], (char*)p[1]);
+        setbuf(_file(p[0]), (char*)p[1]);
     }
     else if (strcmp(func, "myst_gcov_open") == 0)
     {
@@ -96,24 +104,9 @@ long myst_gcov(const char* func, long p[6])
     {
         return (long)mkdir((const char*)p[0], (int)p[1]);
     }
-    else if (strcmp(func, "myst_gcov_vfprintf") == 0)
-    {
-        va_list ap;
-        memcpy(ap, (const void*)p[2], sizeof(ap));
-
-        return (long)vfprintf((FILE*)p[0], (const char*)p[1], ap);
-    }
     else if (strcmp(func, "myst_gcov___popcountdi2") == 0)
     {
         return (long)__popcountdi2((unsigned long)p[0]);
-    }
-    else if (strcmp(func, "myst_gcov___vfprintf_chk") == 0)
-    {
-        va_list ap;
-        memcpy(ap, (const void*)p[3], sizeof(ap));
-
-        return (long)__vfprintf_chk(
-            (FILE*)p[0], (int)p[1], (const char*)p[2], ap);
     }
     else
     {

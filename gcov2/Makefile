@@ -24,9 +24,11 @@ libgcovlibc.a: gcovlibc.c
 
 sample1: sample.c libgcov.a libgcovlibc.a
 	$(CC) -o sample1 $(CFLAGS) sample.c ./libgcov.a ./libgcovlibc.a
+	./sample1
 
-sample2: sample.c libgcov.a libgcovlibc.a
+sample2: sample.c libgcov.a libgcovcall.a libgcovhandle.a
 	$(CC) -o sample2 $(CFLAGS) sample.c ./libgcov.a ./libgcovcall.a ./libgcovhandle.a
+	./sample2
 
 clean:
 	rm -f *.o *.a *.gcno *.gcda sample1 sample2
