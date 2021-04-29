@@ -1,3 +1,6 @@
+TOP=$(abspath ..)
+include $(TOP)/defs.mak
+
 CFLAGS += -Wall -Werror -fprofile-arcs -ftest-coverage
 
 LDFLAGS += -nostdlib
@@ -5,30 +8,41 @@ LDFLAGS += -nodefaultlibs
 LDFLAGS += -nostartfiles
 LDFLAGS += -Wl,--warn-once
 
-all: libgcov.a libgcovcall.a libgcovhandle.a libgcovlibc.a sample1 sample2
+LIBMYSTGCOV=$(LIBDIR)/libmystgcov.a
+LIBMYSTGCOVCLIENT=$(LIBDIR)/libmystgcovclient.a
+LIBMYSTGCOVSERVER=$(LIBDIR)/libmystgcovserver.a
+SAMPLE=$(SUBBINDIR)/sample
 
-libgcov.a:
-	./mklibgcov.sh
+all: $(LIBMYSTGCOV) $(LIBMYSTGCOVCLIENT) $(LIBMYSTGCOVSERVER) $(SAMPLE)
 
-libgcovcall.a: gcovcall.c
-	$(CC) -Wall -Werror -c gcovcall.c
-	ar rv libgcovcall.a gcovcall.o
+$(LIBMYSTGCOV):
+	mkdir -p $(LIBDIR) $(SUBOBJDIR)
+	./mklibmystgcov.sh $(LIBMYSTGCOV)
 
-libgcovhandle.a: gcovhandle.c
-	$(CC) -Wall -Werror -c gcovhandle.c
-	ar rv libgcovhandle.a gcovhandle.o
+$(LIBMYSTGCOVCLIENT): gcovclient.c
+	mkdir -p $(LIBDIR) $(SUBOBJDIR)
+	$(CC) -Wall -Werror -c gcovclient.c -o $(SUBOBJDIR)/gcovclient.o
+	ar rv $(LIBMYSTGCOVCLIENT) $(SUBOBJDIR)/gcovclient.o
 
-libgcovlibc.a: gcovlibc.c
-	$(CC) -Wall -Werror -c gcovlibc.c
-	ar rv libgcovlibc.a gcovlibc.o
+$(LIBMYSTGCOVSERVER): gcovserver.c
+	mkdir -p $(LIBDIR) $(SUBOBJDIR)
+	$(CC) -Wall -Werror -c gcovserver.c -o $(SUBOBJDIR)/gcovserver.o
+	ar rv $(LIBMYSTGCOVSERVER) $(SUBOBJDIR)/gcovserver.o
 
-sample1: sample.c libgcov.a libgcovlibc.a
-	$(CC) -o sample1 $(CFLAGS) sample.c ./libgcov.a ./libgcovlibc.a
-	./sample1
+$(SAMPLE): sample.c $(LIBMYSTGCOV) $(LIBMYSTGCOVCLIENT) $(LIBMYSTGCOVSERVER)
+	mkdir -p $(SUBBINDIR)
+	$(CC) -g -O0 -o $(SAMPLE) $(CFLAGS) sample.c $(LIBMYSTGCOV) $(LIBMYSTGCOVCLIENT) $(LIBMYSTGCOVSERVER)
 
-sample2: sample.c libgcov.a libgcovcall.a libgcovhandle.a
-	$(CC) -o sample2 $(CFLAGS) sample.c ./libgcov.a ./libgcovcall.a ./libgcovhandle.a
-	./sample2
+tests:
+	$(SAMPLE)
+	gcov -bc sample
+	cat sample.c.gcov
+
+CLEAN = *.o *.gcno *.gcda sample
+CLEAN += $(SUBBINDIR)/sample
+CLEAN += $(LIBMYSTGCOV)
+CLEAN += $(LIBMYSTGCOVCLIENT)
+CLEAN += $(LIBMYSTGCOVSERVER)
 
 clean:
-	rm -f *.o *.a *.gcno *.gcda sample1 sample2
+	rm -f $(CLEAN)

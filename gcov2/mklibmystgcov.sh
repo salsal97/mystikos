@@ -11,9 +11,16 @@
 ##
 ##==============================================================================
 
+if [ "$#" != "1" ]; then
+    echo "Usage: $0 <gcov_lib_name>"
+    exit 1
+fi
+
+libname=$1
+
 ##==============================================================================
 ##
-## copy the system libgcov.a to ./libgcov.a
+## copy the system libgcov.a to ./libmystgcov.a
 ##
 ##==============================================================================
 
@@ -33,22 +40,22 @@ if [ ! -f "${libgcov}" ]; then
     exit 1
 fi
 
-cp "${libgcov}" ./libgcov.a
+cp "${libgcov}" ${libname}
 
 ##==============================================================================
 ##
-## prefix all C symbols in libgcov.a with "myst_gcov_" prefix
+## prefix all C symbols in libmystgcov.a with "myst_gcov_" prefix
 ##
 ##==============================================================================
 
-if [ ! -f "libgcov.a" ]; then
-    echo "$0: libgcov.a not found"
+if [ ! -f "${libname}" ]; then
+    echo "$0: ${libname} not found"
     exit 1
 fi
 
-ar xf libgcov.a
+ar xf ${libname}
 if [ "$?" != "0" ]; then
-    echo "$0: failed to extract libgcov.a"
+    echo "$0: failed to extract ${libname}"
     exit 1
 fi
 
@@ -63,13 +70,13 @@ do
     fi
 done
 
-ar rf libgcov.a _gcov*.o
+ar rf ${libname} _gcov*.o
 if [ "$?" != "0" ]
 then
-    echo "$0: failed to build libgcov.a"
+    echo "$0: failed to build ${libname}"
     exit 1
 fi
 
 rm -f ${objs}
 
-echo "Created libgcov.a"
+echo "Created ${libname}"
