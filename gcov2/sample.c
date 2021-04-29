@@ -18,5 +18,7 @@ int foo()
 int main()
 {
     for (size_t i = 0; i < 1000; i++)
-        return foo();
+        foo();
+
+    return 0;
 }

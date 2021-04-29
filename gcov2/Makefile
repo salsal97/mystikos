@@ -38,7 +38,7 @@ tests:
 	gcov -bc sample
 	cat sample.c.gcov
 
-CLEAN = *.o *.gcno *.gcda sample
+CLEAN = *.o *.gcno *.gcda $(SAMPLE)
 CLEAN += $(SUBBINDIR)/sample
 CLEAN += $(LIBMYSTGCOV)
 CLEAN += $(LIBMYSTGCOVCLIENT)
