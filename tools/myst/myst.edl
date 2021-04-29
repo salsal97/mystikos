@@ -389,5 +389,22 @@ enclave
         int myst_load_fssig_ocall(
             [in, string] const char* path,
             [out] myst_fssig_t* fssig);
+
+        /*
+        **======================================================================
+        **
+        ** gcov functions:
+        **
+        **======================================================================
+        */
+
+        char* myst_gcov_getenv_ocall([in, string] const char *name);
+
+        int myst_gcov_getpid_ocall();
+
+        int myst_gcov_open_ocall(
+            [in, string] const char *pathname,
+            int flags,
+            mode_t mode);
     };
 };

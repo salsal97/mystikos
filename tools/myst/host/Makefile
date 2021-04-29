@@ -4,6 +4,10 @@ include $(TOP)/defs.mak
 
 PROGRAM = myst
 
+ifdef MYST_ENABLE_GCOV2
+DEFINES += -DMYST_ENABLE_GCOV2
+endif
+
 SOURCES =
 SOURCES += $(SUBOBJDIR)/myst_u.c
 SOURCES += $(wildcard *.c)
@@ -29,6 +33,10 @@ LIBS += $(LIBDIR)/libmysttargetlinux.a
 LIBS += $(LIBDIR)/libmysttargetsgxhost.a
 LIBS += $(LIBDIR)/libmystutils.a
 LIBS += $(MBEDTLS_LIBS)
+
+ifdef MYST_ENABLE_GCOV2
+LIBS += $(LIBDIR)/libmystgcovserver.a
+endif
 
 CLEAN = $(SUBOBJDIR)/myst_u.h $(SUBOBJDIR)/myst_u.c $(SUBOBJDIR)/myst_args.h
 

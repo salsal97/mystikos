@@ -236,3 +236,13 @@ int myst_tcall_load_fssig(const char* path, myst_fssig_t* fssig)
     long params[6] = {(long)path, (long)fssig};
     return myst_tcall(MYST_TCALL_LOAD_FSSIG, params);
 }
+
+#ifdef MYST_ENABLE_GCOV2
+
+long myst_gcov(const char* func, long gcov_params[6])
+{
+    long params[6] = {(long)func, (long)gcov_params};
+    return myst_tcall(MYST_TCALL_GCOV, params);
+}
+
+#endif
