@@ -406,5 +406,35 @@ enclave
             [in, string] const char *pathname,
             int flags,
             mode_t mode);
+        
+        int myst_gcov_fcntl_ocall(
+            int fd,
+            int cmd,
+            long arg);
+        
+        int myst_gcov___errno_location_ocall();
+
+        void myst_gcov_abort_ocall();
+
+        long myst_gcov_fopen_ocall(
+            [in, string] const char* pathname,
+            [in, string] const char* mode);
+        
+        long myst_gcov_fdopen_ocall(
+            int fd,
+            [in, string] const char* mode);
+        
+        size_t myst_gcov_fread_ocall(
+            void* ptr,
+            size_t size,
+            size_t nmemb,
+            long stream);
+        
+        /*TODO: given size to const void* here */
+        size_t myst_gcov_fwrite_ocall(
+            [in, size=size]const void* ptr,
+            size_t size,
+            size_t nmemb,
+            long stream);
     };
 };
