@@ -1,32 +1,13 @@
+#include <gcov.h>
 #include <string.h>
 #include <unistd.h>
 
+// TODO: couldnt import these from gcov.h
+#define MYST_GCOV_STDERR ((FILE*)0x67001b41aafb4224)
+#include <errno.h>
+#include <sys/stat.h>
+
 #include "myst_u.h"
-
-char* myst_gcov_getenv_ocall(const char* name)
-{
-    return getenv(name);
-}
-
-int myst_gcov_getpid_ocall(void)
-{
-    return getpid();
-}
-
-int myst_gcov_open_ocall(const char* pathname, int flags, mode_t mode)
-{
-    return open(pathname, flags, mode);
-}
-
-int myst_gcov_fcntl_ocall(int fd, int cmd, long arg)
-{
-    return fcntl(fd, cmd, arg);
-}
-
-int myst_gcov___errno_location_ocall(void)
-{
-    return 123; // TODO: __errno_location();
-}
 
 void myst_gcov_abort_ocall(void)
 {
@@ -36,153 +17,130 @@ void myst_gcov_abort_ocall(void)
         ;
 }
 
-// TODO: change long to FILE*; conflict with edl types
-long myst_gcov_fopen_ocall(const char* pathname, const char* mode)
+FILE* myst_gcov_fopen_ocall(const char* pathname, const char* mode)
 {
-    return (long)fopen(pathname, mode);
+    return fopen(pathname, mode);
 }
 
-// TODO: change long to FILE*; conflict with edl types
-long myst_gcov_fdopen_ocall(int fd, const char* mode)
+FILE* myst_gcov_fdopen_ocall(int fd, const char* mode)
 {
-    return (long)fdopen(fd, mode);
+    return fdopen(fd, mode);
 }
 
-// TODO: change long to FILE*; conflict with edl types
-size_t myst_gcov_fread_ocall(void* ptr, size_t size, size_t nmemb, long stream)
+size_t myst_gcov_fread_ocall(
+    void* ptr,
+    size_t size,
+    size_t nmemb,
+    size_t count,
+    FILE* stream)
 {
-    // TODO: does not recognize the macro
-    // if (stream == MYST_GCOV_STDERR)
-    //     stream = stderr;
+    if (stream == MYST_GCOV_STDERR)
+        stream = stderr;
 
-    return fread(ptr, size, nmemb, (FILE*)stream);
+    return fread(ptr, size, nmemb, stream);
 }
 
 size_t myst_gcov_fwrite_ocall(
     const void* ptr,
     size_t size,
     size_t nmemb,
-    long stream)
+    size_t count,
+    FILE* stream)
 {
-    // TODO: does not recognize the macro
-    // if (stream == MYST_GCOV_STDERR)
-    //     stream = stderr;
+    if (stream == MYST_GCOV_STDERR)
+        stream = stderr;
 
-    return fwrite(ptr, size, nmemb, (FILE*)stream);
+    return fwrite(ptr, size, nmemb, stream);
 }
 
-// int myst_gcov_fseek_ocall(FILE* stream, long offset, int whence)
-// {
-//     if (stream == MYST_GCOV_STDERR)
-//         stream = stderr;
+int myst_gcov_fseek_ocall(FILE* stream, uint64_t offset, int whence)
+{
+    if (stream == MYST_GCOV_STDERR)
+        stream = stderr;
 
-//     return fseek(stream, offset, whence);
-// }
+    return fseek(stream, offset, whence);
+}
 
-// long myst_gcov_ftell(FILE* stream)
-// {
-//     if (stream == MYST_GCOV_STDERR)
-//         stream = stderr;
+long myst_gcov_ftell_ocall(FILE* stream)
+{
+    if (stream == MYST_GCOV_STDERR)
+        stream = stderr;
 
-//     return ftell(stream);
-// }
+    return ftell(stream);
+}
 
-// int myst_gcov_fclose(FILE* stream)
-// {
-//     if (stream == MYST_GCOV_STDERR)
-//         stream = stderr;
+int myst_gcov_fclose_ocall(FILE* stream)
+{
+    if (stream == MYST_GCOV_STDERR)
+        stream = stderr;
 
-//     return fclose(stream);
-// }
+    return fclose(stream);
+}
 
-// void myst_gcov_setbuf(FILE* stream, char* buf)
-// {
-//     if (stream == MYST_GCOV_STDERR)
-//         stream = stderr;
+void myst_gcov_setbuf_ocall(FILE* stream, char* buf)
+{
+    if (stream == MYST_GCOV_STDERR)
+        stream = stderr;
 
-//     return setbuf(stream, buf);
-// }
+    return setbuf(stream, buf);
+}
 
-// int myst_gcov_close(int fd)
-// {
-//     return close(fd);
-// }
+int myst_gcov_open_ocall(const char* pathname, int flags, mode_t mode)
+{
+    return open(pathname, flags, mode);
+}
 
-// long int myst_gcov_strtol(const char* nptr, char** endptr, int base)
-// {
-//     return strtol(nptr, endptr, base);
-// }
+int myst_gcov_close_ocall(int fd)
+{
+    return close(fd);
+}
 
-// int myst_gcov_access(const char* pathname, int mode)
-// {
-//     return access(pathname, mode);
-// }
+int myst_gcov_fcntl_ocall(int fd, int cmd, uint64_t arg)
+{
+    return fcntl(fd, cmd, arg);
+}
 
-// int myst_gcov_mkdir(const char* pathname, mode_t mode)
-// {
-//     return mkdir(pathname, mode);
-// }
+char* myst_gcov_getenv_ocall(const char* name)
+{
+    return getenv(name);
+}
 
-// int myst_gcov_vfprintf(FILE* stream, const char* format, va_list ap)
-// {
-//     if (stream == MYST_GCOV_STDERR)
-//         stream = stderr;
+int* myst_gcov___errno_location_ocall(void)
+{
+    return __errno_location();
+}
 
-//     return vfprintf(stream, format, ap);
-// }
+int myst_gcov_getpid_ocall(void)
+{
+    return getpid();
+}
 
-// int myst_gcov_fprintf(FILE* stream, const char* format, ...)
-// {
-//     if (stream == MYST_GCOV_STDERR)
-//         stream = stderr;
+long int myst_gcov_strtol_ocall(const char* nptr, char** endptr, int base)
+{
+    return strtol(nptr, endptr, base);
+}
 
-//     va_list ap;
-//     va_start(ap, format);
-//     int r = vfprintf(stream, format, ap);
-//     va_end(ap);
-//     return r;
-// }
+int myst_gcov_access_ocall(const char* pathname, int mode)
+{
+    return access(pathname, mode);
+}
 
-// int myst_gcov___popcountdi2(unsigned long a)
-// {
-//     size_t nbits = 0;
+int myst_gcov_mkdir_ocall(const char* pathname, mode_t mode)
+{
+    return mkdir(pathname, mode);
+}
 
-//     /* Count the number of bits that are set */
-//     for (unsigned long i = 0; i < 64; i++)
-//     {
-//         if ((a & (1LU << i)))
-//             nbits++;
-//     }
+int myst_gcov___popcountdi2_ocall(unsigned long a)
+{
+    size_t nbits = 0;
 
-//     /* Return 1 if the nbits is odd; return 0 if nbits is event */
-//     return (nbits % 2) ? 1 : 0;
-// }
+    /* Count the number of bits that are set */
+    for (unsigned long i = 0; i < 64; i++)
+    {
+        if ((a & (1LU << i)))
+            nbits++;
+    }
 
-// int myst_gcov___vfprintf_chk(
-//     FILE* stream,
-//     int flag,
-//     const char* format,
-//     va_list ap)
-// {
-//     (void)flag;
-
-//     if (stream == MYST_GCOV_STDERR)
-//         stream = myst_gcov_stderr;
-
-//     return vfprintf(stream, format, ap);
-// }
-
-// int myst_gcov___fprintf_chk(FILE* stream, int flag, const char* format, ...)
-// {
-//     va_list ap;
-//     (void)flag;
-
-//     if (stream == MYST_GCOV_STDERR)
-//         stream = stderr;
-
-//     va_start(ap, format);
-//     int n = vfprintf(stream, format, ap);
-//     va_end(ap);
-
-//     return n;
-// }
+    /* Return 1 if the nbits is odd; return 0 if nbits is event */
+    return (nbits % 2) ? 1 : 0;
+}

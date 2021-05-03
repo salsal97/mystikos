@@ -13,6 +13,7 @@ enclave
     include "myst/options.h"
     include "poll.h"
     include "fcntl.h"
+    include "stdio.h"
 
     struct myst_timespec
     {
@@ -398,43 +399,72 @@ enclave
         **======================================================================
         */
 
-        char* myst_gcov_getenv_ocall([in, string] const char *name);
+        void myst_gcov_abort_ocall();
 
-        int myst_gcov_getpid_ocall();
+        FILE* myst_gcov_fopen_ocall(
+            [in, string] const char* pathname,
+            [in, string] const char* mode);
+        
+        FILE* myst_gcov_fdopen_ocall(
+            int fd,
+            [in, string] const char* mode);
+        
+        size_t myst_gcov_fread_ocall(
+            [in, size=count] void* ptr,
+            size_t size,
+            size_t nmemb,
+            size_t count,
+            FILE* stream);
+        
+        size_t myst_gcov_fwrite_ocall(
+            [in, size=count]const void* ptr,
+            size_t size,
+            size_t nmemb,
+            size_t count,
+            FILE* stream);
+        
+        int myst_gcov_fseek_ocall(
+            FILE* stream,
+            uint64_t offset,
+            int whence);
+        
+        long myst_gcov_ftell_ocall(FILE* stream);
+
+        int myst_gcov_fclose_ocall(FILE* stream);
+
+        void myst_gcov_setbuf_ocall(FILE* stream, char* buf);
 
         int myst_gcov_open_ocall(
             [in, string] const char *pathname,
             int flags,
             mode_t mode);
         
+        int myst_gcov_close_ocall(int fd);
+        
         int myst_gcov_fcntl_ocall(
             int fd,
             int cmd,
-            long arg);
+            uint64_t arg);
         
-        int myst_gcov___errno_location_ocall();
+        char* myst_gcov_getenv_ocall([in, string] const char *name);
+        
+        int* myst_gcov___errno_location_ocall();
 
-        void myst_gcov_abort_ocall();
+        int myst_gcov_getpid_ocall();
 
-        long myst_gcov_fopen_ocall(
+        long int myst_gcov_strtol_ocall(
+            [in, string] const char* nptr,
+            char** endptr,
+            int base);
+        
+        int myst_gcov_access_ocall(
             [in, string] const char* pathname,
-            [in, string] const char* mode);
+            int mode);
         
-        long myst_gcov_fdopen_ocall(
-            int fd,
-            [in, string] const char* mode);
+        int myst_gcov_mkdir_ocall(
+            [in, string] const char* pathname,
+            mode_t mode);
         
-        size_t myst_gcov_fread_ocall(
-            void* ptr,
-            size_t size,
-            size_t nmemb,
-            long stream);
-        
-        /*TODO: given size to const void* here */
-        size_t myst_gcov_fwrite_ocall(
-            [in, size=size]const void* ptr,
-            size_t size,
-            size_t nmemb,
-            long stream);
+        int myst_gcov___popcountdi2_ocall(unsigned long a);
     };
 };
