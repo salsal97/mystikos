@@ -49,10 +49,8 @@ DIRS += dup
 DIRS += sockets
 DIRS += sendmsg
 DIRS += poll
-DIRS += clock
 DIRS += sysinfo
 DIRS += pollpipe
-DIRS += pollpipe2
 DIRS += pipesz
 DIRS += futex
 DIRS += round
@@ -94,18 +92,24 @@ ifeq ($(MYST_ENABLE_HOSTFS),1)
 DIRS += hostfs
 endif
 
-DIRS += msync
+ifndef MYST_ENABLE_GCOV2
+DIRS += clock
+DIRS += pollpipe2
+DIRS += dotnet-proc-maps
 DIRS += dotnet-ubuntu
+endif
+
+DIRS += msync
 
 DIRS += robust
 DIRS += devfs
 DIRS += callonce
 DIRS += syscall_exception
-DIRS += dotnet-proc-maps
 #DIRS += mprotect
 
 __tests:
 	@ $(foreach i, $(DIRS), $(MAKE) -C $(i) tests $(NL) )
+
 
 tests:
 	@ sudo rm -rf $(TESTDIR)
