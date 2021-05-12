@@ -106,6 +106,8 @@ DIRS += devfs
 DIRS += callonce
 DIRS += syscall_exception
 #DIRS += mprotect
+DIRS += eventfd
+DIRS += polleventfd
 
 __tests:
 	@ $(foreach i, $(DIRS), $(MAKE) -C $(i) tests $(NL) )
