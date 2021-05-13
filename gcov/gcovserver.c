@@ -14,6 +14,10 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#ifndef MYST_DEBUG
+#error "MYST_DEBUG is not set. Use GCOV only in debug mode"
+#endif
+
 #define MYST_GCOV_STDERR ((FILE*)0x67001b41aafb4224)
 
 int __popcountdi2(unsigned long a);
