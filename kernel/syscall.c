@@ -4404,7 +4404,9 @@ static long _syscall(void* args_)
                 if (!arg2)
                     BREAK(_return(n, -EINVAL));
 
-                strcpy(arg2, myst_get_thread_name(myst_thread_self()));
+                // ATTN: Linux requires a 16-byte buffer:
+                const size_t n = 16;
+                myst_strlcpy(arg2, myst_get_thread_name(myst_thread_self()), n);
             }
             else if (option == PR_SET_NAME)
             {
@@ -5812,6 +5814,7 @@ long myst_syscall_tgkill(int tgid, int tid, int sig)
     long ret = 0;
     myst_thread_t* thread = myst_thread_self();
     myst_thread_t* target = myst_find_thread(tid);
+    siginfo_t* siginfo;
 
     if (target == NULL)
         ERAISE(-ESRCH);
@@ -5820,7 +5823,9 @@ long myst_syscall_tgkill(int tgid, int tid, int sig)
     if (tgid != thread->pid)
         ERAISE(-EINVAL);
 
-    siginfo_t* siginfo = calloc(1, sizeof(siginfo_t));
+    if (!(siginfo = calloc(1, sizeof(siginfo_t))))
+        ERAISE(-ENOMEM);
+
     siginfo->si_code = SI_TKILL;
     siginfo->si_signo = sig;
     myst_signal_deliver(target, sig, siginfo);
@@ -5862,7 +5867,11 @@ long myst_syscall_kill(int pid, int sig)
     if (process_thread->pid == pid)
     {
         // Deliver signal
-        siginfo_t* siginfo = calloc(1, sizeof(siginfo_t));
+        siginfo_t* siginfo;
+
+        if (!(siginfo = calloc(1, sizeof(siginfo_t))))
+            ERAISE(-ENOMEM);
+
         siginfo->si_code = SI_USER;
         siginfo->si_signo = sig;
         siginfo->si_pid = thread->pid;

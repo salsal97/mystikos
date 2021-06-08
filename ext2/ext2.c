@@ -204,13 +204,13 @@ static ssize_t _read(myst_blkdev_t* dev, size_t offset, void* data, size_t size)
     }
     else
     {
+        if (!(locals = malloc(sizeof(struct locals))))
+            goto done;
+
         for (i = blkno, rem = size, ptr = (uint8_t*)data; rem; i++)
         {
             uint32_t off; /* offset into this block */
             uint32_t len; /* bytes to read from this block */
-
-            if (!(locals = malloc(sizeof(struct locals))))
-                goto done;
 
             if (dev->get(dev, i, locals->blk) != 0)
                 goto done;
@@ -4933,6 +4933,23 @@ done:
     return ret;
 }
 
+static int _set_fd_flag(ext2_t* ext2, myst_file_t* file, long arg)
+{
+    int ret = 0;
+
+    /* Linux currently only defines a single flag, FD_CLOEXEC */
+    if (arg & FD_CLOEXEC)
+        file->fdflags = FD_CLOEXEC;
+    else
+        file->fdflags = 0;
+
+    _update_timestamps(&file->inode, CHANGE);
+    ECHECK(_write_inode(ext2, file->ino, &file->inode));
+
+done:
+    return ret;
+}
+
 static int _ext2_fcntl(myst_fs_t* fs, myst_file_t* file, int cmd, long arg)
 {
     int ret = 0;
@@ -4945,14 +4962,7 @@ static int _ext2_fcntl(myst_fs_t* fs, myst_file_t* file, int cmd, long arg)
     {
         case F_SETFD:
         {
-            if (arg != FD_CLOEXEC && arg != 0)
-                ERAISE(-EINVAL);
-
-            if (arg == FD_CLOEXEC)
-                file->fdflags = FD_CLOEXEC;
-            else
-                file->fdflags = 0;
-            /* ATTN.TIMESTAMPS */
+            ECHECK(_set_fd_flag(ext2, file, arg));
             goto done;
         }
         case F_GETFD:
@@ -4994,10 +5004,26 @@ static int _ext2_ioctl(
     if (!_ext2_valid(ext2) || !_file_valid(file))
         ERAISE(-EBADF);
 
-    if (request == TIOCGWINSZ)
-        ERAISE(-EINVAL);
-
-    ERAISE(-ENOTSUP);
+    switch (request)
+    {
+        case TIOCGWINSZ:
+        {
+            ERAISE(-EINVAL);
+            break;
+        }
+        case FIOCLEX:
+        {
+            ECHECK(_set_fd_flag(ext2, file, FD_CLOEXEC));
+            break;
+        }
+        case FIONCLEX:
+        {
+            ECHECK(_set_fd_flag(ext2, file, 0));
+            break;
+        }
+        default:
+            ERAISE(-ENOTSUP);
+    }
 
 done:
 

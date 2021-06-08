@@ -9,11 +9,14 @@
 #include <myst/cpio.h>
 #include <myst/eraise.h>
 #include <myst/ext2.h>
+#include <myst/file.h>
 #include <myst/fssig.h>
 #include <myst/hex.h>
 #include <myst/hostfs.h>
 #include <myst/kernel.h>
 #include <myst/mount.h>
+#include <myst/paths.h>
+#include <myst/printf.h>
 #include <myst/pubkey.h>
 #include <myst/ramfs.h>
 #include <myst/realpath.h>
@@ -25,9 +28,11 @@
 #include <myst/verity.h>
 
 #define MOUNT_TABLE_SIZE 8
+#define AUTOMOUNT_DIR "/run/mystikos/automounts"
 
 typedef struct mount_table_entry
 {
+    char* source;
     char* path;
     size_t path_size;
     myst_fs_t* fs;
@@ -45,7 +50,10 @@ static void _free_mount_table(void* arg)
     (void)arg;
 
     for (size_t i = 0; i < _mount_table_size; i++)
+    {
+        free(_mount_table[i].source);
         free(_mount_table[i].path);
+    }
 }
 
 int myst_mount_resolve(
@@ -199,6 +207,9 @@ int myst_mount(myst_fs_t* fs, const char* source, const char* target)
 
     /* Assign and initialize new mount point. */
     {
+        if (!(mount_table_entry.source = strdup(source)))
+            ERAISE(-ENOMEM);
+
         if (!(mount_table_entry.path = strdup(target)))
             ERAISE(-ENOMEM);
 
@@ -251,6 +262,9 @@ int myst_umount(const char* target)
 
         if (strcmp(entry->path, locals->realpath.buf) == 0)
         {
+            /* release the source */
+            free(entry->source);
+
             /* release the path */
             free(entry->path);
 
@@ -299,6 +313,112 @@ static const char* _find_arg(const char* args[], const char* name)
 }
 #endif /* MYST_ENABLE_EXT2FS */
 
+#ifdef MYST_ENABLE_HOSTFS
+static bool _find_mount_source(const char* source, const char** path)
+{
+    bool found = false;
+    for (size_t i = 0; i < _mount_table_size; i++)
+    {
+        if (strcmp(_mount_table[i].source, source) == 0)
+        {
+            found = true;
+            *path = _mount_table[i].path;
+            break;
+        }
+    }
+    return found;
+}
+
+static long _new_automount_dir(char mountdir[PATH_MAX])
+{
+    long ret = 0;
+    int mount_num = 1;
+    struct stat statbuf;
+
+    if (!(myst_syscall_stat(AUTOMOUNT_DIR, &statbuf) == 0 &&
+          S_ISDIR(statbuf.st_mode)))
+    {
+        ECHECK(myst_mkdirhier(AUTOMOUNT_DIR, 0x777));
+    }
+
+    while (1)
+    {
+        snprintf(mountdir, PATH_MAX, "%s/%d", AUTOMOUNT_DIR, mount_num++);
+        if (myst_syscall_access(mountdir, F_OK) != 0)
+        {
+            ECHECK(myst_syscall_mkdir(mountdir, 0x777));
+            break;
+        }
+    }
+
+done:
+
+    if (ret != 0)
+        mountdir[0] = '\0';
+
+    return ret;
+}
+
+static int _mount_single_file(
+    myst_fs_t* fs,
+    const char* source,
+    const char* target)
+{
+    int ret = 0;
+    const char* source_dir = NULL;
+    struct locals
+    {
+        char sourcedir[PATH_MAX];
+        char sourcebase[PATH_MAX];
+        char mountpath[PATH_MAX];
+    };
+    struct locals* locals = NULL;
+
+    if (!(locals = malloc(sizeof(struct locals))))
+        ERAISE(-ENOMEM);
+
+    ECHECK(myst_split_path(
+        source, locals->sourcedir, PATH_MAX, locals->sourcebase, PATH_MAX));
+
+    if (_find_mount_source(locals->sourcedir, &source_dir))
+    {
+        myst_strlcpy(locals->mountpath, source_dir, PATH_MAX);
+    }
+    else
+    {
+        ECHECK(_new_automount_dir(locals->mountpath));
+        ECHECK(myst_mount(fs, locals->sourcedir, locals->mountpath));
+    }
+
+    /* create a symlink */
+    if (myst_syscall_access(target, F_OK) == 0 &&
+        myst_syscall_unlink(target) != 0)
+    {
+        myst_eprintf("kernel: unlink failed: %s\n", target);
+        ERAISE(-EINVAL);
+    }
+
+    myst_strlcat(locals->mountpath, "/", PATH_MAX);
+    myst_strlcat(locals->mountpath, locals->sourcebase, PATH_MAX);
+    if (myst_syscall_symlink(locals->mountpath, target) != 0)
+    {
+        myst_eprintf(
+            "kernel: mount failed: %s=%s, symlink_interim_mountpath=%s\n",
+            source,
+            target,
+            locals->mountpath);
+        ERAISE(-EINVAL);
+    }
+
+done:
+
+    if (locals)
+        free(locals);
+
+    return ret;
+}
+#endif /* MYST_ENABLE_HOSTFS */
+
 long myst_syscall_mount(
     const char* source,
     const char* target,
@@ -336,11 +456,21 @@ long myst_syscall_mount(
         if (mountflags || data)
             ERAISE(-EINVAL);
 
-        /* create a new ramfs instance */
+        /* create a new hostfs instance */
         ECHECK(myst_init_hostfs(&fs));
 
-        /* perform the mount */
-        ECHECK(myst_mount(fs, source, target));
+        /* mount a single file */
+        struct stat buf;
+        ECHECK((*fs->fs_stat)(fs, source, &buf));
+        if (!S_ISDIR(buf.st_mode))
+        {
+            ECHECK(_mount_single_file(fs, source, target));
+        }
+        else
+        {
+            /* perform the mount */
+            ECHECK(myst_mount(fs, source, target));
+        }
         fs = NULL;
     }
 #endif /* MYST_ENABLE_HOSTFS */

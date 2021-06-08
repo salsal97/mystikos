@@ -19,11 +19,10 @@ int myst_debug_posix_memalign(void** memptr, size_t alignment, size_t size);
 
 void* myst_debug_memalign(size_t alignment, size_t size);
 
-size_t myst_debug_malloc_check(bool dump);
+size_t myst_debug_malloc_check(void);
 
-void myst_debug_malloc_dump(void);
-
-void myst_debug_malloc_dump_used(void);
+/* check integrity of all allocated blocks */
+size_t myst_memcheck(void);
 
 extern bool myst_enable_debug_malloc;
 
