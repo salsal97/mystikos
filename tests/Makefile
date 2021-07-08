@@ -28,7 +28,7 @@ DIRS += mman
 DIRS += fs
 DIRS += mount
 DIRS += cpio
-# DIRS += elf
+DIRS += elf
 DIRS += strings
 DIRS += getpid
 DIRS += json
@@ -82,7 +82,7 @@ endif
 REDEFINE_TESTS=1
 
 DIRS += epoll
-# DIRS += oe
+DIRS += oe
 DIRS += procfs
 
 ifeq ($(MYST_ENABLE_HOSTFS),1)
