@@ -72,6 +72,14 @@ jobs:
       displayName: 'measure code coverage'
       workingDirectory: $(Build.SourcesDirectory)
     
+    # install dot net core for generating code coverage report
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core sdk'
+      inputs:
+        packageType: sdk
+        version: 2.x
+        installationPath: $(Agent.ToolsDirectory)/dotnet
+
     # Publish code coverage results
     # Publish Cobertura code coverage results from a build
     - task: PublishCodeCoverageResults@1
