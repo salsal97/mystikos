@@ -115,6 +115,7 @@ DIRS += tkillself
 DIRS += thread_abort
 DIRS += synccall
 
+DIRS = ltp
 .PHONY: $(DIRS)
 
 dirs: $(DIRS)
