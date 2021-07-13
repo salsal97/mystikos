@@ -27,7 +27,7 @@ cp "${MYST_ROOT}"/tools/myst/common.c "${MYST_ROOT}"/tools/myst/kargs.c -t "${MY
 
 rm $(find "${MYST_ROOT}"/build/obj/ -name "*.gc*")
 
-lcov -c -d . -o "${MYST_ROOT}"/lcov.info
+lcov -c -d . -o "${MYST_ROOT}"/lcov.info --rc lcov_branch_coverage=1
 
 rm -rf "${MYST_ROOT}"/lcov
 mkdir "${MYST_ROOT}"/lcov
