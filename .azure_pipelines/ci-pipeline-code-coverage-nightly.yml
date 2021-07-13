@@ -72,40 +72,31 @@ jobs:
       displayName: 'measure code coverage'
       workingDirectory: $(Build.SourcesDirectory)
     
-    # install dot net core for generating code coverage report
-    - task: UseDotNet@2
-      displayName: 'Use .NET Core sdk'
-      inputs:
-        packageType: sdk
-        version: 2.x
-        installationPath: $(Agent.ToolsDirectory)/dotnet
+    # # install dot net core for generating code coverage report
+    # - task: UseDotNet@2
+    #   displayName: 'Use .NET Core sdk'
+    #   inputs:
+    #     packageType: sdk
+    #     version: 2.x
+    #     installationPath: $(Agent.ToolsDirectory)/dotnet
 
-    - task: DotNetCoreCLI@2
-      displayName: 'Install ReportGenerator'
-      inputs:
-        command: custom
-        custom: tool
-        arguments: 'install --global dotnet-reportgenerator-globaltool'
+    # - task: DotNetCoreCLI@2
+    #   displayName: 'Install ReportGenerator'
+    #   inputs:
+    #     command: custom
+    #     custom: tool
+    #     arguments: 'install --global dotnet-reportgenerator-globaltool'
     
-    - script: |
-        reportgenerator -reports:$(Build.SourcesDirectory)/lcov.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines
-      displayName: 'Create code coverage report'
-      
-    # Publish code coverage results
-    # Publish Cobertura code coverage results from a build
-    - task: PublishCodeCoverageResults@1
-      displayName: "Publish Code Coverage Result"
-      inputs:
-        codeCoverageTool: 'Cobertura'
-        summaryFileLocation: $(Build.SourcesDirectory)/lcov.xml
-        #failIfCoverageEmpty: false # Optional
+    # - script: |
+    #     reportgenerator -reports:$(Build.SourcesDirectory)/lcov.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines
+    #   displayName: 'Create code coverage report'
 
     # Publish code coverage results
     # Publish Cobertura code coverage results from a build
     - task: PublishCodeCoverageResults@1
       displayName: "Publish Code Coverage Result"
       inputs:
-        codeCoverageTool: 'Cobertura'
+        codeCoverageTool: cobertura
         summaryFileLocation: $(Build.SourcesDirectory)/lcov.xml
         #failIfCoverageEmpty: false # Optional
           
