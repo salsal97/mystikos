@@ -6,8 +6,6 @@ variables:
     value: 'https://openenclave.visualstudio.com/ACC-Services/_dashboards/dashboard/90072dae-a6fb-41f2-93ec-176f04066da6'
   - name: MYST_ENABLE_GCOV
     value: 1
-  # - name: disable.coverage.autogenerate
-  #   value: true
   
 # nightly pipeline will be triggered in pipeline schedule settings.
 
@@ -55,17 +53,17 @@ jobs:
         MYST_NIGHTLY_TEST: 1
 
     # run solution tests
-    # - script: |
-    #     make tests -C $(Build.SourcesDirectory)/solutions
-    #   displayName: 'run solution tests'
-    #   continueOnError: true
-    #   enabled: true
-    #   workingDirectory: $(Build.SourcesDirectory)
-    #   env:
-    #     # by default sql solution test will run on US EAST DB Node
-    #     DB_NAME: $(DB_NAME_USEAST)
-    #     DB_SERVER_NAME: $(DB_SERVER_NAME_USEAST)
-    #     MAA_URL: $(DB_MAA_URL_USEAST)
+    - script: |
+        make tests -C $(Build.SourcesDirectory)/solutions
+      displayName: 'run solution tests'
+      continueOnError: true
+      enabled: true
+      workingDirectory: $(Build.SourcesDirectory)
+      env:
+        # by default sql solution test will run on US EAST DB Node
+        DB_NAME: $(DB_NAME_USEAST)
+        DB_SERVER_NAME: $(DB_SERVER_NAME_USEAST)
+        MAA_URL: $(DB_MAA_URL_USEAST)
 
     # measure code coverage
     - script: |
@@ -81,17 +79,6 @@ jobs:
         version: 2.x
         installationPath: $(Agent.ToolsDirectory)/dotnet
 
-    # - task: DotNetCoreCLI@2
-    #   displayName: 'Install ReportGenerator'
-    #   inputs:
-    #     command: custom
-    #     custom: tool
-    #     arguments: 'install --global dotnet-reportgenerator-globaltool'
-    
-    # - script: |
-    #     reportgenerator -reports:$(Build.SourcesDirectory)/lcov.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines
-    #   displayName: 'Create code coverage report'
-
     # Publish code coverage results
     # Publish Cobertura code coverage results from a build
     - task: PublishCodeCoverageResults@1
@@ -99,7 +86,6 @@ jobs:
       inputs:
         codeCoverageTool: cobertura
         summaryFileLocation: $(Build.SourcesDirectory)/lcov.xml
-        reportDirectory: $(Build.SourcesDirectory)
         #failIfCoverageEmpty: false # Optional
           
     - script: |
