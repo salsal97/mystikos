@@ -70,8 +70,6 @@ jobs:
     # measure code coverage
     - script: |
         bash $(Build.SourcesDirectory)/scripts/myst_cc
-        python3 -m "lcov_cobertura" lcov.info -o lcov.xml
-        lcov --list lcov.info
       displayName: 'measure code coverage'
       workingDirectory: $(Build.SourcesDirectory)
     
