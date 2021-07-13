@@ -6,6 +6,8 @@ variables:
     value: 'https://openenclave.visualstudio.com/ACC-Services/_dashboards/dashboard/90072dae-a6fb-41f2-93ec-176f04066da6'
   - name: MYST_ENABLE_GCOV
     value: 1
+  # - name: disable.coverage.autogenerate
+  #   value: true
   
 # nightly pipeline will be triggered in pipeline schedule settings.
 
@@ -69,16 +71,17 @@ jobs:
     - script: |
         bash $(Build.SourcesDirectory)/scripts/myst_cc
         python3 -m "lcov_cobertura" lcov.info -o lcov.xml
+        lcov --list lcov.info
       displayName: 'measure code coverage'
       workingDirectory: $(Build.SourcesDirectory)
     
-    # # install dot net core for generating code coverage report
-    # - task: UseDotNet@2
-    #   displayName: 'Use .NET Core sdk'
-    #   inputs:
-    #     packageType: sdk
-    #     version: 2.x
-    #     installationPath: $(Agent.ToolsDirectory)/dotnet
+    # install dot net core for generating code coverage report
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core sdk'
+      inputs:
+        packageType: sdk
+        version: 2.x
+        installationPath: $(Agent.ToolsDirectory)/dotnet
 
     # - task: DotNetCoreCLI@2
     #   displayName: 'Install ReportGenerator'
@@ -98,6 +101,7 @@ jobs:
       inputs:
         codeCoverageTool: cobertura
         summaryFileLocation: $(Build.SourcesDirectory)/lcov.xml
+        reportDirectory: $(Build.SourcesDirectory)
         #failIfCoverageEmpty: false # Optional
           
     - script: |
