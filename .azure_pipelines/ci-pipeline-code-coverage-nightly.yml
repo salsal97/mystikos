@@ -6,8 +6,8 @@ variables:
     value: 'https://openenclave.visualstudio.com/ACC-Services/_dashboards/dashboard/90072dae-a6fb-41f2-93ec-176f04066da6'
   - name: MYST_ENABLE_GCOV
     value: 1
-  # - name: disable.coverage.autogenerate
-  #   value: true
+  - name: disable.coverage.autogenerate
+    value: true
   
 # nightly pipeline will be triggered in pipeline schedule settings.
 
