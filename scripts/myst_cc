@@ -31,4 +31,4 @@ lcov -c -d . -o "${MYST_ROOT}"/lcov.info
 
 rm -rf "${MYST_ROOT}"/lcov
 mkdir "${MYST_ROOT}"/lcov
-genhtml -o "${MYST_ROOT}"/lcov "${MYST_ROOT}"/lcov.info
+genhtml -o "${MYST_ROOT}"/lcov "${MYST_ROOT}"/lcov.info --branch-coverage
